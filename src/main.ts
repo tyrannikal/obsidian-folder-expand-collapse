@@ -88,12 +88,10 @@ export default class FolderExpandCollapsePlugin extends Plugin {
 			}
 		};
 
-		// When expanding, also expand the target folder itself
-		if (!collapsed) {
-			const targetItem = fileExplorer.fileItems[folder.path];
-			if (targetItem) {
-				targetItem.setCollapsed(false);
-			}
+		// Also collapse/expand the target folder itself
+		const targetItem = fileExplorer.fileItems[folder.path];
+		if (targetItem) {
+			targetItem.setCollapsed(collapsed);
 		}
 
 		setChildren(folder);
