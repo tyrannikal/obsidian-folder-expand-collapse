@@ -15,6 +15,8 @@ export default class FolderExpandCollapsePlugin extends Plugin {
 		this.registerAltClick();
 	}
 
+	onunload() {}
+
 	private registerContextMenu() {
 		this.registerEvent(
 			this.app.workspace.on("file-menu", (menu, file) => {
