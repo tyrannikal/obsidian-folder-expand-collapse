@@ -22,13 +22,13 @@ export default class FolderExpandCollapsePlugin extends Plugin {
 
 				menu.addItem((item) => {
 					item.setTitle("Expand all children")
-						.setIcon("chevrons-down-up")
+						.setIcon("chevrons-up-down")
 						.onClick(() => this.setCollapsedRecursive(file, false));
 				});
 
 				menu.addItem((item) => {
 					item.setTitle("Collapse all children")
-						.setIcon("chevrons-up-down")
+						.setIcon("chevrons-down-up")
 						.onClick(() => this.setCollapsedRecursive(file, true));
 				});
 			})
