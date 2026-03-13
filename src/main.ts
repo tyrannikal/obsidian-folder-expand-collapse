@@ -40,6 +40,8 @@ export default class FolderExpandCollapsePlugin extends Plugin {
 			if (!evt.altKey) return;
 
 			const target = evt.target as HTMLElement;
+			if (!target.closest(".nav-folder-title")) return;
+
 			const navFolder = target.closest(".nav-folder");
 			if (!navFolder) return;
 
@@ -48,27 +50,36 @@ export default class FolderExpandCollapsePlugin extends Plugin {
 			);
 			if (!titleEl) return;
 
-			// Only trigger if clicking the title row or collapse indicator
-			if (!target.closest(".nav-folder-title")) return;
-
 			const folderPath = titleEl.getAttribute("data-path");
 			if (folderPath === null) return;
 
 			const folder = this.app.vault.getAbstractFileByPath(folderPath);
 			if (!(folder instanceof TFolder)) return;
 
-			evt.preventDefault();
-			evt.stopPropagation();
+			// Let the native click toggle the folder first,
+			// then propagate that state to all children
+			setTimeout(() => {
+				const fileExplorer = this.getFileExplorer();
+				if (!fileExplorer) return;
 
-			const fileExplorer = this.getFileExplorer();
-			if (!fileExplorer) return;
+				const fileItem = fileExplorer.fileItems[folderPath];
+				if (!fileItem) return;
 
-			const fileItem = fileExplorer.fileItems[folderPath];
-			if (!fileItem) return;
-
-			// Toggle: if currently collapsed, expand all children; otherwise collapse all
-			const shouldCollapse = !fileItem.collapsed;
-			this.setCollapsedRecursive(folder, shouldCollapse);
+				// Read the folder's state after the native toggle and
+				// apply it recursively to all children
+				const setChildren = (parent: TFolder) => {
+					for (const child of parent.children) {
+						if (child instanceof TFolder) {
+							const item = fileExplorer.fileItems[child.path];
+							if (item) {
+								item.setCollapsed(fileItem.collapsed);
+							}
+							setChildren(child);
+						}
+					}
+				};
+				setChildren(folder);
+			}, 0);
 		});
 	}
 
