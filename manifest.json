@@ -2,7 +2,7 @@
 	"id": "folder-expand-collapse",
 	"name": "Folder Expand Collapse",
 	"version": "1.0.0",
-	"minAppVersion": "1.0.0",
+	"minAppVersion": "1.12.0",
 	"description": "Recursively expand or collapse all children within a specific folder via right-click or Alt+Click.",
 	"author": "tyrannikal",
 	"authorUrl": "https://github.com/tyrannikal",
