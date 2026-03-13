@@ -6,5 +6,5 @@
 	"description": "Recursively expand or collapse all children within a specific folder via right-click or Alt+Click.",
 	"author": "tyrannikal",
 	"authorUrl": "https://github.com/tyrannikal",
-	"isDesktopOnly": false
+	"isDesktopOnly": true
 }

@@ -1,4 +1,4 @@
-import { Plugin, TFolder, TAbstractFile, WorkspaceLeaf } from "obsidian";
+import { Plugin, TFolder } from "obsidian";
 
 interface FileItem {
 	collapsed: boolean;
@@ -65,20 +65,7 @@ export default class FolderExpandCollapsePlugin extends Plugin {
 				const fileItem = fileExplorer.fileItems[folderPath];
 				if (!fileItem) return;
 
-				// Read the folder's state after the native toggle and
-				// apply it recursively to all children
-				const setChildren = (parent: TFolder) => {
-					for (const child of parent.children) {
-						if (child instanceof TFolder) {
-							const item = fileExplorer.fileItems[child.path];
-							if (item) {
-								item.setCollapsed(fileItem.collapsed);
-							}
-							setChildren(child);
-						}
-					}
-				};
-				setChildren(folder);
+				this.setCollapsedRecursive(folder, fileItem.collapsed);
 			}, 0);
 		});
 	}
@@ -109,8 +96,7 @@ export default class FolderExpandCollapsePlugin extends Plugin {
 	}
 
 	private getFileExplorer(): FileExplorerView | null {
-		const leaves: WorkspaceLeaf[] =
-			this.app.workspace.getLeavesOfType("file-explorer");
+		const leaves = this.app.workspace.getLeavesOfType("file-explorer");
 		if (leaves.length === 0) return null;
 		return leaves[0].view as unknown as FileExplorerView;
 	}
