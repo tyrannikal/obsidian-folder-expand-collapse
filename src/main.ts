@@ -10,7 +10,7 @@ interface FileExplorerView {
 }
 
 export default class FolderExpandCollapsePlugin extends Plugin {
-	async onload() {
+	onload() {
 		this.registerContextMenu();
 		this.registerAltClick();
 	}

@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-folder-expand-collapse",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Recursively expand or collapse all children within a specific folder.",
 	"main": "main.js",
 	"scripts": {
